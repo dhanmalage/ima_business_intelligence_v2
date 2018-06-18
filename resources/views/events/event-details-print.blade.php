@@ -18,65 +18,35 @@
 
 <body>
 
-    <h3>IMA Business Intelligence Report</h3>
+    <h3>IMA Business Intelligence Event Report</h3>
 
     <h2>Event Name: {{$event->event_name}}</h2>
-    <h2>Date: {{$event->start_date}}</h2>
-    <h2>Time: {{$event->event_start_time}}</h2>
-    <h2>Attendees: {{$event->imabi_attendees_complete}}</h2>
+    <h2>Date: {{$event->event_date}}</h2>
+    <h2 class="text-uppercase">Time: {{$event->event_start_time}}</h2>
+    <h2>Attendees: {{$event->attendees_total}}</h2>
 
     <table class="table table-striped table-bordered dt-responsive nowrap dataTable no-footer dtr-inline">
         <thead>
             <tr>
-                <th>Reg Date</th>
-                <th>Pay Status</th>
-                <th>Qty</th>
-                <th>Paid</th>
                 <th>First Name</th>
                 <th>Last Name</th>
                 <th>Email</th>
                 <th>Phone</th>
+                <th>Tickets</th>
+                <th>Total ($)</th>
+                <th>Date</th>
             </tr>
         </thead>
         <tbody>
-            @foreach($event_details as $event_detail)
+            @foreach($attendees as $attendee)
                 <tr>
-                    <td>{{date('d-m-Y', strtotime($event_detail->date))}}</td>
-                    
-                    @if($event_detail->txn_type == "securepay_aus" && $event_detail->payment_status == "Completed")
-                        <td>Completed</td>
-                    @endif
-
-                    @if($event_detail->txn_type == "SecurePay" && $event_detail->payment_status == "Completed")
-                        <td>Completed</td>
-                    @endif
-
-                    @if($event_detail->txn_type == "securepay_aus" && $event_detail->payment_status == "Incomplete")
-                        <td>Payment Failed</td>
-                    @endif
-					
-					@if($event_detail->txn_type == "securepay_aus" && $event_detail->payment_status == "Payment Declined")
-						<td>Payment Failed</td>
-					@endif
-
-                    @if($event_detail->txn_type == "SecurePay" && $event_detail->payment_status == "Incomplete")
-                        <td>Payment Failed</td>
-                    @endif
-
-                    @if($event_detail->txn_type == null && $event_detail->payment_status == "Incomplete")
-                        <td>Website Incomplete</td>
-                    @endif
-
-                    @if($event_detail->txn_type == null && $event_detail->payment_status == "Completed")
-                        <td>Free</td>
-                    @endif
-
-                    <td>{{$event_detail->quantity}}</td>
-                    <td>${{$event_detail->amount_pd}}</td>
-                    <td>{{$event_detail->fname}}</td>
-                    <td>{{$event_detail->lname}}</td>
-                    <td>{{$event_detail->email}}</td>
-                    <td>{{$event_detail->phone}}</td>
+                    <td>{{$attendee->fname}}</td>
+                    <td>{{$attendee->lname}}</td>
+                    <td>{{$attendee->email}}</td>
+                    <td>{{$attendee->phone}}</td>
+                    <td>{{$attendee->quantity}}</td>
+                    <td class="text-right">{{$attendee->ticket_total}}</td>
+                    <td>{{date('d-m-Y', strtotime($attendee->date))}}</td>
                 </tr>
             @endforeach
         </tbody>

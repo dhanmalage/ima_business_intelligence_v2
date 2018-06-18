@@ -141,7 +141,7 @@
     padding-top: 5px;
 }
 .dataTables_filter{
-    width: 30%;
+   /* width: 30%; */
 }
 .buttons-copy,
 .buttons-csv,
@@ -174,8 +174,9 @@
     font-size: 11px;
     font-weight: 500;
     width: 70px;
-    display: inline-block;
+    display: block;
     padding: .3em .6em .3em;
+    margin: auto;
 }
 @media (max-width: 1440px){
     .home-event-title a span{

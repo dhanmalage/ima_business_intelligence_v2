@@ -16,9 +16,6 @@
     <!-- Styles -->
     <!-- <link href="{{ asset('css/app.css') }}" rel="stylesheet"> -->
 
-
-
-
     <!-- Bootstrap -->
     <link href="{{url('vendor/bootstrap/dist/css/bootstrap.min.css')}}" rel="stylesheet">
     <!-- Font Awesome -->
@@ -33,6 +30,10 @@
     <link href="{{url('vendor/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{url('vendor/datatables.net-responsive-bs/css/responsive.bootstrap.min.css')}}" rel="stylesheet">
     <link href="{{url('vendor/datatables.net-scroller-bs/css/scroller.bootstrap.min.css')}}" rel="stylesheet">
+
+    <!-- Datetimepicker -->
+    <link href="{{url('vendor/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css')}}" rel="stylesheet">
+    <link href="{{url('vendor/bootstrap-daterangepicker/daterangepicker.css')}}" rel="stylesheet">
 
     <!-- Custom Theme Style -->
     <link href="{{url('build/css/custom.min.css')}}" rel="stylesheet">
@@ -57,6 +58,9 @@
 
 
     </div>
+    <div class="hide">
+        <span id="baseUrl">{{url('/')}}</span>
+    </div>
 </div>
 
     <!-- jQuery -->
@@ -67,8 +71,7 @@
     <script src="{{url('vendor/fastclick/lib/fastclick.js')}}"></script>
     <!-- NProgress -->
     <script src="{{url('vendor/nprogress/nprogress.js')}}"></script>
-    <!-- iCheck -->
-    <script src="{{url('vendor/iCheck/icheck.min.js')}}"></script>
+
     <!-- Datatables -->
     <script src="{{url('vendor/datatables.net/js/jquery.dataTables.min.js')}}"></script>
     <script src="{{url('vendor/datatables.net-bs/js/dataTables.bootstrap.min.js')}}"></script>
@@ -86,10 +89,25 @@
     <script src="{{url('vendor/pdfmake/build/pdfmake.min.js')}}"></script>
     <script src="{{url('vendor/pdfmake/build/vfs_fonts.js')}}"></script>
 
+    <!-- bootstrap-daterangepicker -->
+    <script src="{{url('vendor/moment/min/moment.min.js')}}"></script>
+    <script src="{{url('vendor/bootstrap-daterangepicker/daterangepicker.js')}}"></script>
+
+    <!-- Morris Charts -->
+    <script src="{{url('vendor/raphael/raphael.min.js')}}"></script>
+    <script src="{{url('vendor/morris.js/morris.min.js')}}"></script>
+
+    <!-- Chart.js -->
+    <script src="{{url('vendor/Chart.js/dist/Chart.min.js')}}"></script>
+
     <!-- Custom Theme Scripts -->
-    <script src="{{url('build/js/custom.min.js')}}"></script>
+    <script src="{{url('build/js/custom.js')}}"></script>
+
+    <!-- match height -->
+    <script src="{{url('js/jquery.matchHeight-min.js')}}"></script>
 
     <!-- Scripts -->
     <!-- <script src="{{ asset('js/app.js') }}"></script> -->
+    <script src="{{ asset('js/script.js') }}"></script>
 </body>
 </html>

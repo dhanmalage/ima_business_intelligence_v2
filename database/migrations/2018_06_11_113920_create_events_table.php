@@ -18,11 +18,13 @@ class CreateEventsTable extends Migration
             $table->integer('event_id');
             $table->string('event_name');
             $table->date('event_date');
-            $table->time('event_start_time')->nullable();
-            $table->time('event_end_time')->nullable();
+            $table->string('event_start_time')->nullable();
+            $table->string('event_end_time')->nullable();
             $table->integer('attendees_total')->nullable();
             $table->float('paid_total', 10, 2)->nullable();
             $table->string('event_status')->nullable();
+            $table->integer('seats')->nullable();
+            $table->float('price', 10, 2)->nullable();
             $table->timestamps();
         });
     }

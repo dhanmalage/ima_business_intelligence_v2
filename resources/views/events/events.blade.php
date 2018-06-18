@@ -2,17 +2,13 @@
 
 @section('content')
 
-    <div class="page-title">
-        <div class="title_left">
-            <h3>All Events <small>Summary Report</small></h3>
-        </div>
-    </div>
-
     <div class="clearfix"></div>
 
-    @if(!empty($flashMsg))
-        <div class="alert alert-success"> {{ $flashMsg }}</div>
-    @endif
+    <div class="header-buttons-wrap">
+        <a class="btn btn-app" href="/events-analysis">
+            <i class="fa fa-bar-chart"></i> View Analysis
+        </a>
+    </div>
 
     <div class="clearfix"></div>
 
@@ -20,33 +16,24 @@
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="x_panel">
                 <div class="x_title">
-                    <h2>All IMA Events <small>Summary</small></h2>
-                    <ul class="nav navbar-right panel_toolbox">
-                        <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                        </li>
-                    </ul>
+                    <h2>IMA Events Summary</h2>
                     <div class="clearfix"></div>
                 </div>
                 <div class="x_content">
                     <p class="text-muted font-13 m-b-30">
-                        This is a summary report of all events in IMA
+                        This is a summary report of all events
                     </p>
-                    <table @hasanyrole('super_admin|administrator') id="datatable-buttons" @else id="datatable" @endhasanyrole class="table table-striped table-bordered dt-responsive nowrap">
+                    <table id="datatable" class="table table-striped table-bordered dt-responsive nowrap">
                         <thead>
                             <tr>
                                 <th>#</th>
                                 <th>Event Name</th>
                                 <th>Date</th>
-                                <th>Time</th>
+                                <th>Start Time</th>
                                 <th>Attendees</th>
-                                <th>Tickets</th>
-                                <th>Paid Total</th>
-                                <th>Status</th>
-
-                                @role('super_admin|administrator')
-                                    <th>Actions</th>
-                                @endrole
-
+                                <th>Total (A$)</th>
+                                <th class="text-center">Status</th>
+                                <th class="text-center">Actions</th>
                             </tr>
                         </thead>
 
@@ -54,35 +41,28 @@
                         <?php $i = 1; ?>
                         @foreach($events as $event)
                             <tr>
-                                <td><a href="{{url('ima-event/' . $event->id)}}">{{ $i }}</a></td>
-                                <td><a href="{{url('ima-event/' . $event->id)}}">{{$event->event_name}}</a></td>
-                                <td><a href="{{url('ima-event/' . $event->id)}}">{{date('d-m-Y', strtotime($event->start_date))}}</a></td>
-                                <td><a href="{{url('ima-event/' . $event->id)}}">{{$event->event_start_time}}</a></td>
-                                <td><a href="{{url('ima-event/' . $event->id)}}">{{$event->imabi_attendees_complete}}</a></td>
-                                <td><a href="{{url('ima-event/' . $event->id)}}">{{$event->reg_limit}}</a></td>
-                                <td><a href="{{url('ima-event/' . $event->id)}}">${{number_format( $event->member_price * $event->imabi_attendees_complete , 2 , '.' , ',' )}}</a></td>
-
+                                <td><a href="{{url('events/' . $event->id)}}">{{ $i }}</a></td>
+                                <td><a href="{{url('events/' . $event->id)}}">{{$event->event_name}}</a></td>
+                                <td><a href="{{url('events/' . $event->id)}}">{{date('d-m-Y', strtotime($event->event_date))}}</a></td>
+                                <td class="text-uppercase"><a href="{{url('events/' . $event->id)}}">{{$event->event_start_time}}</a></td>
+                                <td><a href="{{url('events/' . $event->id)}}">{{$event->attendees_total}}</a></td>
+                                <td class="text-right"><a href="{{url('events/' . $event->id)}}">{{$event->paid_total}}</a></td>
                                 <td>
-                                    <a href="/ima-event/{{ $event->id }}" class="event-status">
-                                        @if($event->event_status == "Open")
-                                            <span class="label label-success">{{ $event->event_status }}</span>
+                                    <a href="{{url('events/' . $event->id)}}" class="event-status text-center">
+                                        @if($event->event_status == "open")
+                                            <span class="label label-success">Open</span>
                                         @endif
-                                        @if($event->event_status == "Closed")
-                                            <span class="label label-info">{{ $event->event_status }}</span>
+                                        @if($event->event_status == "closed")
+                                            <span class="label label-info">Closed</span>
                                         @endif
-                                        @if($event->event_status == "Postponed")
-                                            <span class="label label-warning">{{ $event->event_status }}</span>
-                                        @endif
-                                        @if($event->event_status == "Cancelled")
-                                            <span class="label label-danger">{{ $event->event_status }}</span>
+                                        @if($event->event_status == "sold")
+                                            <span class="label label-default">Sold out</span>
                                         @endif
                                     </a>
                                 </td>
-                                <td>
-                                    @role('super_admin')
-                                        <a href="{{url('event-settings/' . $event->setting_id . '/edit')}}" class="ima-color-red table-action-button" title="Edit"><i class="fa fa-pencil"></i></a>
-                                    @endrole
-                                    <a href="{{url('ima-event/ima-event-details-print/' . $event->id)}}" class="ima-color-red table-action-button" target="_blank" title="Print"><i class="fa fa-print"></i></a>
+                                <td class="text-center">
+                                    <a href="{{url('events/' . $event->id)}}" class="" title="View"><span class="label btn-success"><i class="fa fa-search"></i> View</span></a>
+                                    <a href="{{url('event-details-print/' . $event->id)}}" class="" target="_blank" title="Print"><span class="label btn-dark"><i class="fa fa-print"></i> Print</span></a>
                                 </td>
                             </tr>
                             <?php $i++; ?>

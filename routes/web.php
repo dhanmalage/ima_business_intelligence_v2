@@ -36,6 +36,7 @@ Route::resource('permissions', 'PermissionController');
 
 Route::resource('home', 'HomeController');
 
+
 /*
 Route::resource('ima-event', 'ImaEventController');
 Route::get('ima-event/ima-event-details-print/{id}', 'ImaEventController@print_event_details');
@@ -69,8 +70,28 @@ Route::get('/clear-cache', function() {
     return redirect('ima-event');
 });
 
-
 /**
- * IMABI New Routes
+ * IMABI New Event Routes
  */
 Route::resource('events', 'EventController');
+Route::get('events-analysis', 'EventController@all_events_analysis');
+Route::get('events-analysis/{date_range}', 'EventController@events_analysis_range');
+Route::get('events-analysis-open', 'EventController@open_events_analysis');
+Route::get('event-details-print/{id}', 'EventController@event_details_print');
+
+/**
+ * API calls for Events
+ */
+Route::resource('api-request', 'ApiRequestController');
+Route::get('api-request-events', 'ApiRequestController@api_event_request');
+Route::get('api-request-attendees', 'ApiRequestController@api_attendee_request');
+Route::get('api-request-events-update', 'ApiRequestController@api_events_update_request');
+
+Route::get('api-request-donations', 'ApiRequestController@api_donations_request');
+
+/**
+ * IMABI New Donation Routes
+ */
+Route::resource('donations', 'DonationController');
+Route::get('event-donations', 'DonationController@event_donations');
+Route::get('event-donation-details/{id}', 'DonationController@event_donation_details');

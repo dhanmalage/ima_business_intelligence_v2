@@ -1583,8 +1583,8 @@ if (typeof NProgress != 'undefined') {
 			var optionSet1 = {
 			  startDate: moment().subtract(29, 'days'),
 			  endDate: moment(),
-			  minDate: '01/01/2012',
-			  maxDate: '12/31/2015',
+			  minDate: '01/01/2018',
+			  maxDate: '12/31/2020',
 			  dateLimit: {
 				days: 60
 			  },
@@ -1628,7 +1628,9 @@ if (typeof NProgress != 'undefined') {
 			  console.log("hide event fired");
 			});
 			$('#reportrange').on('apply.daterangepicker', function(ev, picker) {
-			  console.log("apply event fired, start/end dates are " + picker.startDate.format('MMMM D, YYYY') + " to " + picker.endDate.format('MMMM D, YYYY'));
+			  console.log("test apply event fired, start/end dates are " + picker.startDate.format('MM D, YYYY') + " to " + picker.endDate.format('MM D, YYYY'));
+				// similar behavior as clicking on a link
+                window.location.href = $('#baseUrl').text() + "/events-analysis/" + picker.startDate.format('MM-DD-YYYY') + "-" + picker.endDate.format('MM-DD-YYYY');
 			});
 			$('#reportrange').on('cancel.daterangepicker', function(ev, picker) {
 			  console.log("cancel event fired");
@@ -2143,15 +2145,30 @@ if (typeof NProgress != 'undefined') {
 				
 			  // Line chart
 			 
-			if ($('#lineChart').length ){	
+			if ($('#lineChart').length ){
+
+			// Array
+			var eventsArr = [];
+			var attendeesArr = [];
+
+			$('.open-event-detail').each(function(index,item){
+				// Object
+				var eventName = $(item).data('event');
+				var attendees = $(item).data('attendees');
+				if(attendees === ''){
+					attendees = 0;
+				}
+                eventsArr.push(eventName);
+                attendeesArr.push(attendees);
+			});
 			
 			  var ctx = document.getElementById("lineChart");
 			  var lineChart = new Chart(ctx, {
 				type: 'line',
 				data: {
-				  labels: ["January", "February", "March", "April", "May", "June", "July"],
+				  labels: eventsArr,
 				  datasets: [{
-					label: "My First dataset",
+					label: "Attendees",
 					backgroundColor: "rgba(38, 185, 154, 0.31)",
 					borderColor: "rgba(38, 185, 154, 0.7)",
 					pointBorderColor: "rgba(38, 185, 154, 0.7)",
@@ -2159,17 +2176,7 @@ if (typeof NProgress != 'undefined') {
 					pointHoverBackgroundColor: "#fff",
 					pointHoverBorderColor: "rgba(220,220,220,1)",
 					pointBorderWidth: 1,
-					data: [31, 74, 6, 39, 20, 85, 7]
-				  }, {
-					label: "My Second dataset",
-					backgroundColor: "rgba(3, 88, 106, 0.3)",
-					borderColor: "rgba(3, 88, 106, 0.70)",
-					pointBorderColor: "rgba(3, 88, 106, 0.70)",
-					pointBackgroundColor: "rgba(3, 88, 106, 0.70)",
-					pointHoverBackgroundColor: "#fff",
-					pointHoverBorderColor: "rgba(151,187,205,1)",
-					pointBorderWidth: 1,
-					data: [82, 23, 66, 9, 99, 4, 2]
+					data: attendeesArr
 				  }]
 				},
 			  });
@@ -2212,30 +2219,39 @@ if (typeof NProgress != 'undefined') {
 
 			  // Doughnut chart
 			  
-			if ($('#canvasDoughnut').length ){ 
+			if ($('#canvasDoughnut').length ){
+
+				// Array
+				var eventsArr = [];
+				var attendeesArr = [];
+
+				$('.open-event-detail').each(function(index,item){
+					// Object
+					var eventName = $(item).data('event');
+					var attendees = $(item).data('attendees');
+					if(attendees === ''){
+						attendees = 0;
+					}
+					eventsArr.push(eventName);
+					attendeesArr.push(attendees);
+				});
 			  
 			  var ctx = document.getElementById("canvasDoughnut");
 			  var data = {
-				labels: [
-				  "Dark Grey",
-				  "Purple Color",
-				  "Gray Color",
-				  "Green Color",
-				  "Blue Color"
-				],
+				labels: eventsArr,
 				datasets: [{
-				  data: [120, 50, 140, 180, 100],
+				  data: attendeesArr,
 				  backgroundColor: [
-					"#455C73",
-					"#9B59B6",
-					"#BDC3C7",
+					"#f27c2d",
+					"#c1d72e",
+					"#97002e",
 					"#26B99A",
 					"#3498DB"
 				  ],
 				  hoverBackgroundColor: [
-					"#34495E",
-					"#B370CF",
-					"#CFD4D8",
+					"#ff882d",
+					"#dcf22e",
+					"#ad0030",
 					"#36CAAB",
 					"#49A9EA"
 				  ]
@@ -2250,6 +2266,54 @@ if (typeof NProgress != 'undefined') {
 			  });
 			 
 			} 
+
+			if ($('#canvasDoughnutEventDonation').length ){
+
+				// Array
+				var fnameArr = [];
+				var donationArr = [];
+
+				$('.open-event-detail').each(function(index,item){
+					// Object
+					var fname = $(item).data('fname');
+					var donation = $(item).data('donation');
+					if(donation === ''){
+                        donation = 0;
+					}
+                    fnameArr.push(fname);
+                    donationArr.push(donation);
+				});
+
+			  var ctx = document.getElementById("canvasDoughnutEventDonation");
+			  var data = {
+				labels: fnameArr,
+				datasets: [{
+				  data: donationArr,
+				  backgroundColor: [
+					"#f27c2d",
+					"#c1d72e",
+					"#97002e",
+					"#26B99A",
+					"#3498DB"
+				  ],
+				  hoverBackgroundColor: [
+					"#ff882d",
+					"#dcf22e",
+					"#ad0030",
+					"#36CAAB",
+					"#49A9EA"
+				  ]
+
+				}]
+			  };
+
+			  var canvasDoughnut = new Chart(ctx, {
+				type: 'doughnut',
+				tooltipFillColor: "rgba(51, 51, 51, 0.55)",
+				data: data
+			  });
+
+			}
 
 			  // Radar chart
 			  
@@ -2572,36 +2636,70 @@ if (typeof NProgress != 'undefined') {
 		function init_morris_charts() {
 			
 			if( typeof (Morris) === 'undefined'){ return; }
-			console.log('init_morris_charts');
+			//console.log('init_morris_charts');
 			
-			if ($('#graph_bar').length){ 
-			
+			if ($('#graph_bar').length){
+
+                // Array
+                var eventArr = [];
+
+                $('.open-event-detail').each(function(index,item){
+                    // Object
+                    var eventName = $(item).data('event');
+                    var attendees = $(item).data('attendees');
+                    if(attendees === ''){
+                        attendees = 0;
+                    }
+                    var eventObj = {event: eventName, attendees: attendees};
+                    eventArr.push(eventObj);
+                });
+
 				Morris.Bar({
 				  element: 'graph_bar',
-				  data: [
-					{device: 'iPhone 4', geekbench: 380},
-					{device: 'iPhone 4S', geekbench: 655},
-					{device: 'iPhone 3GS', geekbench: 275},
-					{device: 'iPhone 5', geekbench: 1571},
-					{device: 'iPhone 5S', geekbench: 655},
-					{device: 'iPhone 6', geekbench: 2154},
-					{device: 'iPhone 6 Plus', geekbench: 1144},
-					{device: 'iPhone 6S', geekbench: 2371},
-					{device: 'iPhone 6S Plus', geekbench: 1471},
-					{device: 'Other', geekbench: 1371}
-				  ],
-				  xkey: 'device',
-				  ykeys: ['geekbench'],
-				  labels: ['Geekbench'],
+				  data: eventArr,
+				  xkey: 'event',
+				  ykeys: ['attendees'],
+				  labels: ['Attendees'],
 				  barRatio: 0.4,
-				  barColors: ['#26B99A', '#34495E', '#ACADAC', '#3498DB'],
-				  xLabelAngle: 35,
+				  barColors: ['#f27c2d', '#34495E', '#ACADAC', '#3498DB'],
+				  xLabelAngle: 0,
 				  hideHover: 'auto',
 				  resize: true
 				});
 
-			}	
-			
+			}
+
+			if ($('#graphBarEventDonation').length){
+
+                // Array
+                var eventArr = [];
+
+                $('.open-event-detail').each(function(index,item){
+                    // Object
+                    var fname = $(item).data('fname');
+                    var donation = $(item).data('donation');
+                    if(donation === ''){
+                        donation = 0;
+                    }
+                    var eventObj = {fname: fname, donation: donation};
+                    eventArr.push(eventObj);
+                });
+
+				Morris.Bar({
+				  element: 'graphBarEventDonation',
+				  data: eventArr,
+				  xkey: 'fname',
+				  ykeys: ['donation'],
+				  labels: ['Donation'],
+				  barRatio: 0.4,
+				  barColors: ['#f27c2d', '#34495E', '#ACADAC', '#3498DB'],
+				  xLabelAngle: 0,
+				  hideHover: 'auto',
+				  resize: true
+				});
+
+			}
+
 			if ($('#graph_bar_group').length ){
 			
 				Morris.Bar({
@@ -2660,12 +2758,11 @@ if (typeof NProgress != 'undefined') {
 					{period: '2014 Q2', iphone: 2778, ipad: 2294, itouch: 2441},
 					{period: '2014 Q3', iphone: 4912, ipad: 1969, itouch: 2501},
 					{period: '2014 Q4', iphone: 3767, ipad: 3597, itouch: 5689},
-					{period: '2015 Q1', iphone: 6810, ipad: 1914, itouch: 2293},
+					{period: '2015 Q1', iphone: 6810, ipad: 1914, itouch: 2000},
 					{period: '2015 Q2', iphone: 5670, ipad: 4293, itouch: 1881},
 					{period: '2015 Q3', iphone: 4820, ipad: 3795, itouch: 1588},
 					{period: '2015 Q4', iphone: 15073, ipad: 5967, itouch: 5175},
 					{period: '2016 Q1', iphone: 10687, ipad: 4460, itouch: 2028},
-					{period: '2016 Q2', iphone: 8432, ipad: 5713, itouch: 1791}
 				  ],
 				  xkey: 'period',
 				  ykeys: ['iphone', 'ipad', 'itouch'],
@@ -2698,7 +2795,7 @@ if (typeof NProgress != 'undefined') {
 			}
 			
 			if ($('#graph_line').length ){
-			
+
 				Morris.Line({
 				  element: 'graph_line',
 				  xkey: 'year',

@@ -24,14 +24,17 @@
                 <ul class="nav side-menu">
                     <li><a href="{{url('/')}}"><i class="fa fa-home"></i> Home </a>
                     </li>
-                    <li><a><i class="fa fa-table"></i> Events <span class="fa fa-chevron-down"></span></a>
+                    <li><a><i class="fa fa-flag"></i> Events <span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu">
-                            <li><a href="{{url('ima-event')}}">View Events</a></li>
-                            <!--
-                            @role('super_admin')
-                                <li><a href="{{url('ima-event/create')}}">Import Data</a></li>
-                            @endrole
-                            -->
+                            <li><a href="{{url('events')}}">View Events</a></li>
+                            <li><a href="{{url('events-analysis-open')}}">Open Events Analysis</a></li>
+                            <li><a href="{{url('events-analysis')}}">My Event Analysis</a></li>
+                        </ul>
+                    </li>
+                    <li><a><i class="fa fa-heart"></i> Donations <span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu">
+                            <li><a href="{{url('donations')}}">Main Donations</a></li>
+                            <li><a href="{{url('event-donations')}}">Donations By Events</a></li>
                         </ul>
                     </li>
                     <li><a><i class="fa fa-cog"></i> Settings <span class="fa fa-chevron-down"></span></a>
